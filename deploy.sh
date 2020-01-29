@@ -4,6 +4,7 @@ set -e
 npm run build
 
 cd dist
+touch .nojekyll
 
 git init
 git add -A
