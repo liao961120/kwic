@@ -30,13 +30,13 @@
                     </li>
                 </ul>
             </div>
+            <div class="info">
+                <button @click="exportTSV" :disabled="isExporting">Export</button>
+                <span class="num-of-results">{{ this.results.length }}</span>
+            </div>
         </div>
 
         <div class="results">
-          <div class="info">
-            <button @click="exportTSV" :disabled="isExporting">Export</button>
-            <span class="num-of-results">{{ this.results.length }}</span>
-          </div>
             <loading
                 loader="spinner"
                 :active.sync="query.isLoading"
@@ -64,13 +64,15 @@
             </div>
             <button v-on:click="showMore" v-if="results.length > 30">Show More</button>
         </div>
+
+        <button id="to-top" onclick="document.documentElement.scrollTop = 0;">Top</button>
     </div>
 </template>
 
 <script>
 import VueLoading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
     name: "kwic",
@@ -100,7 +102,7 @@ export default {
                 curr: 30,
                 next: 30
             },
-            isExporting: false,
+            isExporting: false
         };
     },
     methods: {
@@ -122,14 +124,15 @@ export default {
 
             const url = `http://localhost:1420/export?kwtag=${this.displayOpt.kw.tag}&ctxtag=${this.displayOpt.ctx.tag}`;
 
-            axios.get(url, { responseType: "blob" })
+            axios
+                .get(url, { responseType: "blob" })
                 .then(response => {
                     const blob = new Blob([response.data], {
                         type: "text/tsv"
                     });
                     const link = document.createElement("a");
                     link.href = URL.createObjectURL(blob);
-                    link.download = 'kwic.tsv';
+                    link.download = "kwic.tsv";
                     link.click();
                     URL.revokeObjectURL(link.href);
                     // Release button
@@ -169,14 +172,23 @@ export default {
     width: 90%;
     margin: 30px auto;
 }
+.header {
+    position: fixed;
+    margin: 0;
+    padding: 20px 0;
+    height: 100px;
+    width: 90%;
+    top: 0;
+    background: white;
+}
 .query {
     display: block;
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
 }
 .keyword {
     display: inline-block;
-    height: 80px;
+    height: 70px;
     width: 70%;
     margin: 0;
     padding: 0;
@@ -197,6 +209,9 @@ export default {
     padding: 0.45em;
     font-size: 11px;
     font-family: Monaco, "Courier New", Courier, monospace;
+}
+.keyword input {
+    margin: 0;
 }
 button#search {
     margin: 5px auto;
@@ -237,6 +252,7 @@ button#search {
     text-align: left;
 }
 .results {
+    margin-top: 175px;
     counter-reset: num;
 }
 .kwic::before {
@@ -249,13 +265,14 @@ button#search {
     color: rgb(42, 42, 42);
 }
 .info {
-  text-align: left;
+    text-align: left;
 }
-.info span, .info button {
-  display: inline-block;
-  margin: 5px 1.2em 5px 0;
-  padding: 5px;
-  line-height: 0.75em;
+.info span,
+.info button {
+    display: inline-block;
+    margin: 5px 1.2em 5px 0;
+    padding: 6px;
+    line-height: 0.75em;
 }
 .info span.num-of-results {
     width: 15em;
@@ -265,5 +282,23 @@ button#search {
 .num-of-results:before {
     content: "總筆數：";
 }
-    
+
+button {
+    background: rgb(87, 87, 87);
+    color: rgb(236, 236, 236);
+    padding: 4px;
+    margin: 5px;
+    border: none;
+}
+button:hover{
+    background: rgb(66, 66, 66);
+    color: white;
+}
+button:active {
+    transform: translateY(1px);
+}
+button:disabled {
+    background: rgb(136, 136, 136);
+    color: rgb(236, 236, 236);
+}
 </style>
