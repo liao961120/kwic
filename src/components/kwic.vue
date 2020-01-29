@@ -65,7 +65,8 @@
             <button v-on:click="showMore" v-if="results.length > 30">Show More</button>
         </div>
 
-        <button id="to-top" onclick="document.documentElement.scrollTop = 0;">Top</button>
+            <a id="to-top" onclick="document.documentElement.scrollTop = 0;">▲</a>
+            <a id="to-bottom" onclick="window.scrollTo(0, document.body.scrollHeight);">▼</a>
     </div>
 </template>
 
@@ -178,10 +179,12 @@ export default {
     padding: 20px 0;
     height: 100px;
     width: 90%;
+    min-width: 900px;
     top: 0;
     background: white;
 }
 .query {
+    position: relative;
     display: block;
     width: 100%;
     margin-bottom: 0px;
@@ -189,7 +192,7 @@ export default {
 .keyword {
     display: inline-block;
     height: 70px;
-    width: 70%;
+    width: 64%;
     margin: 0;
     padding: 0;
     text-align: left;
@@ -197,7 +200,7 @@ export default {
 .setting {
     display: inline-block;
     height: 80px;
-    width: 30%;
+    width: 36%;
     margin: 0;
     padding: 0;
     list-style-type: none;
@@ -301,4 +304,25 @@ button:disabled {
     background: rgb(136, 136, 136);
     color: rgb(236, 236, 236);
 }
+
+a#to-top, a#to-bottom {
+    position: fixed;
+    right: 1%;
+    background: rgb(121, 121, 121);
+    color: rgb(245, 245, 245);
+    font-size: 19px;
+}
+a#to-top:hover, a#to-bottom:hover {
+    background: rgb(88, 88, 88);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    user-select: none;
+}
+a#to-top {
+    bottom: 40px;
+} 
+a#to-bottom {
+    bottom: 15px;
+} 
 </style>
