@@ -28,6 +28,15 @@
                         show tag (context):
                         <input type="checkbox" v-model="displayOpt.ctx.tag" />
                     </li>
+                    <li>
+                        <input type="radio" name="gender" id="female" value="0" v-model="query.gender"/>
+                        <label for="female">Female</label>
+                        <input type="radio" name="gender" id='male' value="1" v-model="query.gender"/>
+                        <label for="male">Male</label>
+                        <input type="radio" name="gender" id='all' value="2" v-model="query.gender"/>
+                        <label for="all">All</label>
+                    </li>
+                    <li class='this-is-placeholder'></li>
                 </ul>
             </div>
             <div class="info">
@@ -84,6 +93,7 @@ export default {
         return {
             query: {
                 query: "",
+                gender: 2,
                 left: 10,
                 right: 10,
                 isLoading: false
@@ -108,7 +118,7 @@ export default {
     },
     methods: {
         searchDB: function() {
-            const url = `http://localhost:1420/query?query=${this.query.query}&left=${this.query.left}&right=${this.query.right}`;
+            const url = `http://localhost:1420/query?query=${this.query.query}&left=${this.query.left}&right=${this.query.right}&gender=${this.query.gender}`;
             //clean up
             this.showNext.curr = 30;
             this.query.isLoading = true;
